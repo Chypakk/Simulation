@@ -11,6 +11,12 @@ public class Entity {
         this.type = type;
     }
 
+    public Entity(Entity entity){
+        this.x = entity.getX();
+        this.y = entity.getY();
+        this.type = entity.getType();
+    }
+
     public void setX(int x) {
         this.x = x;
     }
@@ -29,5 +35,10 @@ public class Entity {
 
     public int getY() {
         return y;
+    }
+
+    public void setCell(Cell cell) {
+        this.x = cell.getX();
+        this.y = cell.getY();
     }
 }

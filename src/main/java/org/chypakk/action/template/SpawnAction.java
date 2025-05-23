@@ -1,9 +1,9 @@
-package org.chypakk.action;
+package org.chypakk.action.template;
 
 import org.chypakk.model.Entity;
 import org.chypakk.model.SimulationMap;
 
-public abstract class SpawnAction extends Action{
+public abstract class SpawnAction extends Action {
 
     protected int spawnRate;
 

@@ -1,4 +1,4 @@
-package org.chypakk.action;
+package org.chypakk.action.template;
 
 import org.chypakk.model.SimulationMap;
 

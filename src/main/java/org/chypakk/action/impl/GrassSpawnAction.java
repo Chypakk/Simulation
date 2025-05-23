@@ -1,13 +1,14 @@
-package org.chypakk.action;
+package org.chypakk.action.impl;
 
+import org.chypakk.action.template.SpawnAction;
 import org.chypakk.model.Entity;
 import org.chypakk.model.SimulationMap;
 import org.chypakk.model.statics.Grass;
 
-public class GrassSpawnAction extends SpawnAction{
+public class GrassSpawnAction extends SpawnAction {
 
     public GrassSpawnAction(int capacity){
-        super.spawnRate = capacity / 10;
+        super.spawnRate = capacity / 5;
     }
 
     @Override
@@ -15,7 +16,7 @@ public class GrassSpawnAction extends SpawnAction{
         int rate = map.getCapacityOfEntity(new Grass(0,0).getType());
 
         while (rate < spawnRate){
-            Entity emptyEntity = map.getRandomEmptyCell();
+            Entity emptyEntity = map.getRandomEmptyEntity();
             map.setEntity(spawnEntity(emptyEntity));
 
             rate++;

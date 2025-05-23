@@ -3,20 +3,19 @@ package org.chypakk.model;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 public class SimulationMap {
-    private Map<Cell, Entity> simulationMap = new HashMap<>();
+    private final Map<Cell, Entity> simulationMap = new HashMap<>();
 
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
 
     public SimulationMap(int width, int height) {
         this.width = width;
         this.height = height;
 
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
+        for (int y = 0; y < width; y++) {
+            for (int x = 0; x < height; x++) {
                 simulationMap.put(new Cell(x, y), new Entity(x, y, ""));
             }
         }
@@ -38,12 +37,17 @@ public class SimulationMap {
         simulationMap.replace(new Cell(newEntity.getX(), newEntity.getY()), newEntity);
     }
 
-    public Entity getRandomEmptyCell(){
+    public void setEntityToCell(Cell cell, Entity entity){
+        entity.setCell(cell);
+        simulationMap.replace(cell, entity);
+    }
+
+    public Entity getRandomEmptyEntity(){
         Random random = new Random();
         while (true){
             Entity entity = getEntity(new Cell(
-                    random.nextInt(width-1),
-                    random.nextInt(height-1)
+                    random.nextInt(width),
+                    random.nextInt(height)
             ));
             if (entity.getType().isEmpty()) return entity;
         }
