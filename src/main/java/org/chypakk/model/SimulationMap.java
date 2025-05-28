@@ -1,5 +1,7 @@
 package org.chypakk.model;
 
+import org.chypakk.model.template.Entity;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;

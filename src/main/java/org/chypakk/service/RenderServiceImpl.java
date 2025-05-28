@@ -1,7 +1,7 @@
 package org.chypakk.service;
 
 import org.chypakk.model.Cell;
-import org.chypakk.model.Entity;
+import org.chypakk.model.template.Entity;
 import org.chypakk.model.SimulationMap;
 
 public class RenderServiceImpl implements RenderService {

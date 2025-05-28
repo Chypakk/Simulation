@@ -1,19 +1,19 @@
 package org.chypakk.action.impl;
 
 import org.chypakk.action.template.SpawnAction;
-import org.chypakk.model.Entity;
+import org.chypakk.model.template.Entity;
 import org.chypakk.model.SimulationMap;
-import org.chypakk.model.dynamics.Predator;
+import org.chypakk.model.dynamics.Wolf;
 
-public class PredatorSpawnAction extends SpawnAction {
+public class WolfSpawnAction extends SpawnAction {
 
-    public PredatorSpawnAction(int capacity){
+    public WolfSpawnAction(int capacity){
         super.spawnRate = capacity / 20;
     }
 
     @Override
     public void perform(SimulationMap map) {
-        int rate = map.getCapacityOfEntity(new Predator().getType());
+        int rate = map.getCapacityOfEntity(new Wolf().getType());
 
         while (rate < spawnRate){
             Entity emptyEntity = map.getRandomEmptyEntity();
@@ -25,6 +25,6 @@ public class PredatorSpawnAction extends SpawnAction {
 
     @Override
     protected Entity spawnEntity(Entity emptyEntity) {
-        return new Predator(emptyEntity.getX(), emptyEntity.getY());
+        return new Wolf(emptyEntity.getX(), emptyEntity.getY());
     }
 }

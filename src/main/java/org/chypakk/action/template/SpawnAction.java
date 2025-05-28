@@ -1,6 +1,6 @@
 package org.chypakk.action.template;
 
-import org.chypakk.model.Entity;
+import org.chypakk.model.template.Entity;
 import org.chypakk.model.SimulationMap;
 
 public abstract class SpawnAction extends Action {

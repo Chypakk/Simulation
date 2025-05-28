@@ -1,8 +1,9 @@
 package org.chypakk.service;
 
 import org.chypakk.model.Cell;
+import org.chypakk.model.template.Food;
 import org.chypakk.model.SimulationMap;
-import org.chypakk.model.dynamics.Herbivore;
+import org.chypakk.model.template.Herbivore;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -17,9 +18,16 @@ public class BFSPathFinderService implements PathFinderService {
     }
 
     @Override
+    public Cell isFoodNear(Cell cell) {
+        return cellsAround(cell).stream()
+                .filter(grassCell -> map.getEntity(grassCell) != null && map.getEntity(grassCell) instanceof Food)
+                .findFirst().orElse(null);
+    }
+
+    @Override
     public Cell isHerbivoreNear(Cell cell) {
         return cellsAround(cell).stream()
-                .filter(herb -> map.getEntity(herb) != null && map.getEntity(herb).getClass() == Herbivore.class)
+                .filter(herbCell -> map.getEntity(herbCell) != null && map.getEntity(herbCell) instanceof Herbivore)
                 .findFirst().orElse(null);
     }
 
@@ -29,8 +37,8 @@ public class BFSPathFinderService implements PathFinderService {
     }
 
     @Override
-    public Queue<Cell> findPathToHerbivore(Cell start) {
-        Map<Cell, Cell> parentMap = new HashMap<>(); // Для восстановления пути
+    public Queue<Cell> findPathToFood(Cell start){
+        Map<Cell, Cell> parentMap = new HashMap<>();
         Queue<Cell> queue = new LinkedList<>();
         Set<Cell> visited = new HashSet<>();
 
@@ -38,11 +46,9 @@ public class BFSPathFinderService implements PathFinderService {
         visited.add(start);
         Cell target = null;
 
-        // BFS с использованием вашего метода emptyCellsNear()
         while (!queue.isEmpty() && target == null) {
             Cell current = queue.poll();
 
-            // Получаем все доступные соседние клетки
             List<Cell> neighbors = emptyCellsNear(current);
 
             for (Cell neighbor : neighbors) {
@@ -51,7 +57,47 @@ public class BFSPathFinderService implements PathFinderService {
                     visited.add(neighbor);
                     queue.add(neighbor);
 
-                    // Проверяем, есть ли рядом с соседом цель
+                    if (isFoodNear(neighbor) != null) {
+                        target = neighbor;
+                        break;
+                    }
+                }
+            }
+        }
+
+        LinkedList<Cell> path = new LinkedList<>();
+        if (target != null) {
+            Cell current = target;
+            while (current != null) {
+                path.addFirst(current);
+                current = parentMap.get(current);
+            }
+        }
+
+        return new ArrayDeque<>(path);
+    }
+
+    @Override
+    public Queue<Cell> findPathToHerbivore(Cell start) {
+        Map<Cell, Cell> parentMap = new HashMap<>();
+        Queue<Cell> queue = new LinkedList<>();
+        Set<Cell> visited = new HashSet<>();
+
+        queue.add(start);
+        visited.add(start);
+        Cell target = null;
+
+        while (!queue.isEmpty() && target == null) {
+            Cell current = queue.poll();
+
+            List<Cell> neighbors = emptyCellsNear(current);
+
+            for (Cell neighbor : neighbors) {
+                if (!visited.contains(neighbor)) {
+                    parentMap.put(neighbor, current);
+                    visited.add(neighbor);
+                    queue.add(neighbor);
+
                     if (isHerbivoreNear(neighbor) != null) {
                         target = neighbor;
                         break;
@@ -60,7 +106,6 @@ public class BFSPathFinderService implements PathFinderService {
             }
         }
 
-        // Восстанавливаем путь от цели к старту
         LinkedList<Cell> path = new LinkedList<>();
         if (target != null) {
             Cell current = target;

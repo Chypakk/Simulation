@@ -1,4 +1,6 @@
-package org.chypakk.model;
+package org.chypakk.model.template;
+
+import org.chypakk.model.Cell;
 
 public class Entity {
     protected String type;

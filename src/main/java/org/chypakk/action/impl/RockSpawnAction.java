@@ -1,7 +1,7 @@
 package org.chypakk.action.impl;
 
 import org.chypakk.action.template.SpawnAction;
-import org.chypakk.model.Entity;
+import org.chypakk.model.template.Entity;
 import org.chypakk.model.SimulationMap;
 import org.chypakk.model.statics.Rock;
 
